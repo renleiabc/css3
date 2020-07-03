@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -webkit-flex;
+            display: flex;
+            line-height: 1;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        body:before {
+            content: "";
+            position: fixed;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, .8);
+            -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, .8);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, .8);
+            z-index: 100;
+        }
+
+        .box-img {
+
+            display: inline-block;
+        }
+
+        img.desaturate {
+            width: 300px;
+            height: 300px;
+            filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+        }
+
+        .nav li {
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            float: left;
+            border-right: 1px solid #666;
+        }
+
+        .nav li:last-child {
+            border-right: none;
+        }
+
+        .nav li:not(:last-child) {
+            border-right: 1px solid #666;
+        }
+
+        ul>li:not(:last-child)::after {
+            content: ",";
+        }
+
+        /* create an arrow that points up */
+        div.arrow-up {
+            width: 0px;
+            height: 0px;
+            border-left: 5px solid transparent;
+            /* left arrow slant */
+            border-right: 5px solid transparent;
+            /* right arrow slant */
+            border-bottom: 5px solid #2f2f2f;
+            /* bottom, add background color here */
+            font-size: 0px;
+            line-height: 0px;
+        }
+
+        /* create an arrow that points down */
+        div.arrow-down {
+            width: 0px;
+            height: 0px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #2f2f2f;
+            font-size: 0px;
+            line-height: 0px;
+        }
+
+        /* create an arrow that points left */
+        div.arrow-left {
+            width: 0px;
+            height: 0px;
+            border-bottom: 5px solid transparent;
+            /* left arrow slant */
+            border-top: 5px solid transparent;
+            /* right arrow slant */
+            border-right: 5px solid #2f2f2f;
+            /* bottom, add background color here */
+            font-size: 0px;
+            line-height: 0px;
+        }
+
+        /* create an arrow that points right */
+        div.arrow-right {
+            width: 0px;
+            height: 0px;
+            border-bottom: 5px solid transparent;
+            /* left arrow slant */
+            border-top: 5px solid transparent;
+            /* right arrow slant */
+            border-left: 5px solid #2f2f2f;
+            /* bottom, add background color here */
+            font-size: 0px;
+            line-height: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="img-box">
+        <img src="../image/gril.jpg" alt="gril" class="desaturate">
+    </div>
+    <div class="arrow-up"></div>
+    <div class="arrow-down"></div>
+    <div class="arrow-left"></div>
+    <div class="arrow-right"></div>
+    <ul class="nav">
+        <li>item1</li>
+        <li>item2</li>
+        <li>item3</li>
+        <li>item4</li>
+        <li>item5</li>
+        <li>item6</li>
+    </ul>
+</body>
+
+</html>

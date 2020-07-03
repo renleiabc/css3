@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <textarea name="" id="" cols="30" rows="10">
+      &lt;script&gt;alert('123')&lt;/script&gt;
+    </textarea>
+    <button id="btn">&lt;script&gt;alert('123')&lt;/script&gt;</button>
+    <script>
+        /*字符转义---编码*/
+        function htmlEncode(html) {
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+            (temp.textContent != undefined) ? (temp.textContent = html) : (temp.innerText = html);
+            //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+            return temp.innerHTML;
+        }
+
+        /*字符转义---解码*/
+        function htmlDecode(text) {
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+            temp.innerHTML = text;
+            //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+            return temp.innerText || temp.textContent;
+        }
+        //var str = "&lt;script&gt;alert('123')&lt;/script&gt;";
+
+        let obj = {};
+        obj = new Proxy(obj, {
+            set(target, key, val) {
+                console.log('oops');
+                return Reflect.set(target, key, val);
+            }
+        })
+        obj.foo = 'bar' // 'oops'
+        const proxy = (func, time) => {
+            let previous = new Date(0).getTime()
+            let handler = {
+                apply(target, context, args) {
+                    let now = new Date().getTime();
+                    if (now - previous > time) {
+                        previous = now
+                        Reflect.apply(func, context, args)
+                    }
+                }
+            }
+            return new Proxy(func, handler)
+        }
+        let Time = 2000
+        var oBtn = document.getElementById("btn");
+        oBtn.addEventListener('mousemove', proxy(func, Time))
+
+        function func(params) {
+            console.log("000")
+        }
+    </script>
+</body>
+
+</html>

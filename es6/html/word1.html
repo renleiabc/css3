@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>测试</title>
+    <script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+    <style>
+        ul,li{
+            list-style: none;
+        }
+        .box {
+            background-color: black;
+            height: 300px;
+            overflow: hidden;
+            width: 500px;
+            margin: 100px auto;
+            color:#fff;
+        }
+        .box li{
+            height: 20px;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="news" class="box" style="">
+        <ul style="margin-top:0!important">
+           <li>1</li>
+           <li>2</li>
+           <li>3</li>
+           <li>4</li>
+           <li>5</li>
+           <li>6</li>
+           <li>7</li>
+           <li>8</li>
+           <li>9</li>
+           <li>10</li>
+           <li>11</li>
+           <li>12</li>
+           <li>13</li>
+           <li>14</li>
+           <li>15</li>
+           <li>16</li>
+           <li>17</li>
+           <li>18</li>
+           <li>19</li>
+           <li>20</li>
+        </ul>
+    </div>
+
+
+
+    <script language="javascript">
+        function autoScroll(obj) {
+            $(obj).find('ul').animate({
+                marginTop: '-2.8rem'
+            }, 500, function() {
+                $(this).css({ marginTop: "0px" });
+                var li = $("ul").children().first().clone()
+                $("ul li:last").after(li);
+                $("ul li:first").remove();
+
+            })
+        }
+
+
+        $(function() {
+
+            setInterval('autoScroll("#news")', 100);
+            console.log(666);
+
+
+        })
+    </script>
+
+</body>
+
+</html>

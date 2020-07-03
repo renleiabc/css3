@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>写好 JS 条件语句的 5 条守则</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <script>
+      //1.多重判断时使用 Array.includes
+      let apple = 'apple'
+
+      function test(param) {
+        if (param == 'apple' || param == 'strawberry') {
+          console.log('red')
+        }
+      }
+      test(apple)
+      // 我们把红色的水果(red fruits)这一判断条件提取到一个数组。这样一来，代码看起来更整洁。
+      function test1(param) {
+        const redFruits = ['apple', 'strawberry', 'cherry', 'cranberries']
+        if (redFruits.includes(param)) {
+          console.log('blue')
+        }
+      }
+      console.log(test1(apple))
+      // var second = 0;
+      // window.setInterval(function() {
+      //     second++;
+      //     console.log(second);
+      // }, 1000);
+      //2.更少的嵌套，尽早 Return
+
+      function test2(params, quantity) {
+        const redFruits = ['apple', 'strawberry', 'cherry', 'cranberries']
+        // params 必须有值；
+        if (params) {
+          // 条件2：必须是red的
+          if (redFruits.includes(params)) {
+            console.log('red')
+            if (quantity > 10) {
+              console.log('big quantity')
+            }
+          }
+        } else {
+          throw new Error('No fruit!')
+        }
+      }
+      // test2(null);
+      test2('apple') // print: red
+      test2('apple', 20) // print: red, big quantity
+      function test3(fruit, quantity) {
+        const redFruits = ['apple', 'strawberry', 'cherry', 'cranberries']
+        // 条件1：尽早跑出错误
+        if (!fruit) throw new Error('No fruit !')
+        // 条件2：必须是red的
+        if (redFruits.includes(fruit)) {
+          console.log('red')
+          if (quantity > 10) {
+            console.log('big quantity')
+          }
+        }
+      }
+      // test3(null);
+      test3('apple') // print: red
+      test3('apple', 20) // print: red, big quantity
+      function test4(param, quantity) {
+        const redFruits = ['apple', 'strawberry', 'cherry', 'cranberries']
+        // 条件 1：尽早跑出错误
+        if (!param) throw new Error('No fruit!')
+        // 条件 2：当水果不是红色时停止继续执行
+        if (!redFruits.includes(param)) return
+        console.log('red')
+        // 条件3：必须是大质量的
+        if (quantity > 10) {
+          console.log('big quantity')
+        }
+      }
+      test4('apple', 20)
+      function test5({ name } = {}) {
+        console.log(name || 'unknown')
+      }
+      test5(undefined)
+      test5({})
+      test5({ name: 'apple', color: 'red' })
+      //4.倾向于对象遍历而不是Switch语句
+      let fruitColor = {
+        red: ['apple', 'strawberry'],
+        yellow: ['banana', 'pineapple'],
+        purple: ['grape', 'plum']
+      }
+      function test6(color) {
+        return fruitColor[color] || []
+      }
+      console.log(test6('red'))
+      var m = new Map()
+      var o = { p: 'Hello world' }
+      m.set(o, 'content')
+      console.log(m.get(o))
+      const fruitColor1 = new Map()
+        .set('red', ['apple', 'strawberry'])
+        .set('yellow', ['banana', 'pineapple'])
+        .set('purple', ['grape', 'plum'])
+      function test7(color) {
+        return fruitColor1.get(color) || []
+      }
+      console.log(test7('red'))
+      // TL;DR; 重构语法
+      const fruits = [
+        { name: 'apple', color: 'red' },
+        { name: 'strawberry', color: 'red' },
+        { name: 'banana', color: 'yellow' },
+        { name: 'pineapple', color: 'yellow' },
+        { name: 'grape', color: 'purple' },
+        { name: 'plum', color: 'purple' }
+      ]
+      function fruitsFilter(color) {
+        fruits.filter(f => {
+          console.log(f)
+        })
+      }
+      console.log(fruitsFilter('red'))
+      function unique(arr) {
+        const res = new Map()
+        return arr.filter(color => !res.has(color) && res.set(color, 1))
+      }
+      console.log(unique(fruits))
+      //5.对 所有/部分 判断使用Array.every & Array.some
+      const fruits2 = [
+        { name: 'apple', color: 'red' },
+        { name: 'banana', color: 'yellow' },
+        { name: 'grape', color: 'purple' }
+      ]
+
+      function test9() {
+        const isAllRed = fruits2.every(f => f.color == 'red')
+        console.log(isAllRed) // false
+      }
+      test9()
+      const fruits3 = [
+        { name: 'apple', color: 'red' },
+        { name: 'banana', color: 'yellow' },
+        { name: 'grape', color: 'purple' }
+      ]
+
+      function test10() {
+        // 条件：任何一个水果是红色
+        const isAnyRed = fruits3.some(f => f.color == 'red')
+        console.log(isAnyRed) // true
+      }
+      test10()
+    </script>
+  </body>
+</html>

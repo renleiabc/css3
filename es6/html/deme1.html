@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    console.log(`hello
+    world`)
+    {
+        let name = 'cala';
+        let age = 22;
+        console.log(`hello, I' am ${name} ,my age is ${age}`)
+        let t = 'abcdefg';
+        // 如果在字符中检测到指定的文本，返回true ,否则返回false
+        if (t.includes('cde')) {
+            console.log(2)
+        }
+    }
+    {
+        // 如果在字符串起始部分检测到指定文本，返回true，否则返回false。
+        let t = 'abcdefg';
+        if (t.startsWith('ab')) {
+            console.log(1)
+        }
+    }
+    {
+        let t = 'abcdefg';
+        if (t.endsWith('fg')) {
+            console.log(3)
+        }
+    }
+    {
+        let t = 'abcdefg';
+        console.log(t.indexOf('a'))
+    }
+    // 箭头函数
+    {
+        const s = a => a
+        console.log(s(2))
+        function Man() {
+            console.log(this)
+            this.age = 22;
+            return function () {
+                console.log(this)
+                return this.age + 1
+            }
+        }
+        let cala = new Man()
+        console.log(cala())
+        // es6 箭头函数
+        function Fn() {
+            this.age = 22;
+            console.log(this)
+            return () => {
+                console.log(this)
+                return this.age +1;
+            }
+        }
+        let cal = new Fn()
+        console.log(cal())
+    }
+    {
+        let obj = {
+            name :'renllei',
+            age:23,
+            fn:(num) =>{
+                console.log(this)
+                return this.age +num
+            }
+        }
+        console.log(obj.fn(1))
+    }
+    {
+        function a(n,p=1) {
+            if (n <= 1){
+                return 1*p
+            }
+            let s = n*p
+            return a(n-1,s)
+        }
+        let sum = a(3)
+        console.log(sum)
+    }
+    {
+        let o1 = {a:1};
+        let o2 = {b:2};
+        let o3 = {c:3};
+        var obj = Object.assign(o1,o2,o3)
+        console.log(JSON.stringify(obj));
+        console.log(JSON.stringify(o1))
+    }
+</script>
+</body>
+</html>

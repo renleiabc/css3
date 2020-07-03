@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<button id='btn'>下载</button>
+
+<body>
+    <script>
+        function name() {
+            let link = document.createElement('a')
+            link.href = 'http://192.168.200.148:2020/dl/v1/oss/user/downloads/ec36011c-c3c6-11e8-a625-000c29be3620?saveas=kff.ppt'
+            console.log(link.href)
+            link.download = 'log.txt'
+            document.body.appendChild(link)
+            setTimeout(res => {
+                link.click()
+                document.body.removeChild(link)
+            }, 10)
+        }
+
+        var dom = document.getElementById('btn');
+        dom.onclick = function(param) {
+            name()
+        }
+    </script>
+</body>
+
+</html>

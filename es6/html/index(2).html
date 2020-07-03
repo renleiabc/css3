@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LifeCycle</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="stage" width="800" height="600"></canvas>
+    </div>
+    <script type="text/javascript">
+        // 体力循环：23天一周期
+        // 情绪循环: 28天一周期
+        // 智力循环: 33天一周期
+
+        //  节律        周期日       高潮日       临界日        低潮期 
+        // 体力节律    余数等于0    余数小于12    余数等于12    余数大于12 
+        // 情绪节律    余数等于0    余数小于14    余数等于14    余数大于14 
+        // 智力节律    余数等于0    余数小于17    余数等于17    余数大于17
+
+        //
+        // 根据生日计算出指定日期的节律值
+        // @param birthday:Date 生日 YYYY-MM-DD
+        // @param targetDate:Date 指定日期 YYYY-MM-DD
+        // @return { strength: 0,  mood: 0, intel: 0 }
+        //
+        function calc(birthday, targetDate) {
+            var sYear = birthday.getFullYear(), // 出生年
+                eYear = targetDate.getFullYear(), // 测定年
+                leapYear = calcLeapYears(sYear, eYear), // 闰年数
+                sDays = millisecondToDays(birthday - new Date(sYear + '-01-01')),
+                eDays = millisecondToDays(targetDate - new Date(eYear + '-01-01'));
+            // basicDays = 365 * a + k + c
+            // a:出生日到测算日经历的周年数
+            // k:出生日到测算日经历的闰年数
+            // c:出生日到测算日不足周年的天数
+            var basicDays = 365 * (eYear - sYear) + leapYear + Math.abs(eDays - sDays);
+            // console.log(basicDays);
+            return {
+                basicDays: basicDays,
+                strength: basicDays % 23,
+                mood: basicDays % 28,
+                intel: basicDays % 33
+            };
+        }
+
+        function format(date) {
+            return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+        }
+
+        //
+        // 毫秒转为天数
+        //
+        function millisecondToDays(millisecond) {
+            return parseInt(millisecond / (24 * 60 * 60 * 1000));
+        }
+
+        //
+        // 计算有多少个闰年
+        //
+        function calcLeapYears(start, end) {
+            var count = 0;
+            for (var i = start; i < end; i++) {
+                if (i % 4 === 0 || i % 100 === 0 || i % 400 === 0) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        // var result = calc(new Date('1964-08-07'), new Date('2010-4-01'));
+        // console.log(result)
+
+        var birthday = new Date('1986-05-12')
+        var strengthData = [];
+        var moodData = [];
+        var intelData = [];
+        var yOffset = 10000
+        for (var i = 1; i <= 30; i++) {
+            var day = i < 10 ? '0' + i : '' + i;
+            var d = new Date('2019-03-' + day)
+            var temp = calc(birthday, d)
+            // console.log(temp)
+            var result = {
+                strength: (Math.sin(2 * Math.PI * temp.basicDays / 23) * yOffset).toFixed(),
+                mood: (Math.sin(2 * Math.PI * temp.basicDays / 28) * yOffset).toFixed(),
+                intel: (Math.sin(2 * Math.PI * temp.basicDays / 33) * yOffset).toFixed()
+            }
+            strengthData.push(result.strength)
+            moodData.push(result.mood)
+            intelData.push(result.intel)
+            console.log(result)
+        }
+
+
+        // 在这里绘图测试
+        var canvas = document.getElementById('stage'),
+            ctx = canvas.getContext("2d"),
+            w = canvas.width,
+            h = canvas.height,
+            xStep = w / strengthData.length;
+
+        function drawLine(color, data) {
+            ctx.beginPath()
+            ctx.moveTo(0, h / 2);
+            for (var i = 0; i < data.length; i++) {
+                var node = data[i];
+                ctx.lineTo(xStep * i, node + h / 2)
+                if (i == data.length - 1) {
+                    ctx.moveTo(xStep * i, node + h / 2)
+                }
+            }
+            ctx.closePath()
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        }
+
+        drawLine('red', strengthData)
+        drawLine('green', moodData)
+        drawLine('blue', intelData)
+    </script>
+</body>
+
+</html>

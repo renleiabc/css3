@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="C:/KwDownload/song/aaa.mp3" download>点击链接下载</a>
+    <button onclick="download1()">点击按钮下载</button>
+    <button onclick="download2()">点击按钮下载1</button>
+    <script>
+        // 会打开一个空白页下载，然后空白页消失，用户体验不好
+        function download1() {
+            window.open('http://192.168.10.95:81/upload/data/log.txt');
+        }
+
+        // 直接下载，用户体验好
+        function download2() {
+            var form = document.createElement('form')
+            form.setAttribute('method', 'get')
+            form.setAttribute('action', 'http://192.168.10.95:81/upload/data/log.txt')
+            document.body.appendChild(form)
+            // 触发点击
+            form.submit()
+            // 移除
+            document.body.removeChild(form)
+        }
+    </script>
+</body>
+
+</html>

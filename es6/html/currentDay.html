@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/echarts.js"></script>
+
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="calander" style="width: 800px;height:600px;"></div>
+    <script>
+        var layouts = [
+            [
+                [0, 0.1]
+            ],
+            [
+
+                [-0.25, 0.1],
+                [0.25, 0.1]
+            ],
+            [
+                [-0.25, 0.1],
+                [0, 0.1],
+                [0.25, 0.1]
+            ]
+        ];
+        var pathes = [
+            'M 100, 100 m -75, 0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0',
+            'M 100, 100 m -75, 0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0',
+            'M 100, 100 m -75, 0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0',
+        ]
+
+        var colors = [
+            "#FCC905", "#FD29E6", "#44D1FF"
+        ];
+
+        function getVirtulData(year) {
+            year = year || '2017';
+            var date = +echarts.number.parseDate(year + '-01-01');
+
+            var end = +echarts.number.parseDate((+year + 1) + '-01-01');
+            var dayTime = 3600 * 24 * 1000;
+            var data = [];
+            for (var time = date; time < end; time += dayTime) {
+                var items = [];
+                var eventCount = Math.round(Math.random() * pathes.length);
+                for (var i = 0; i < eventCount; i++) { items.push(Math.round(Math.random() * (pathes.length - 1))); }
+                let arr = Array.from(new Set(items));
+                data.push([echarts.format.formatTime('yyyy-MM-dd', time), arr.join('|')]);
+            }
+            return data;
+        }
+
+        function renderItem(params, api) {
+
+            var cellPoint = api.coord(api.value(0));
+            var cellWidth = params.coordSys.cellWidth;
+            var cellHeight = params.coordSys.cellHeight;
+            var value = api.value(1);
+            var events = value && value.split('|');
+            if (isNaN(cellPoint[0]) || isNaN(cellPoint[1])) {
+                return;
+            }
+            var group = {
+                type: 'group',
+                children: echarts.util.map(layouts[events.length - 1], function(itemLayout, index) {
+                    return {
+                        type: 'path',
+                        shape: { pathData: pathes[events[index]], x: 0, y: 0, width: 12, height: 12 },
+                        position: [cellPoint[0] + echarts.number.linearMap(itemLayout[0], [-0.5, 0.5], [-cellWidth / 2, cellWidth / 2]), cellPoint[1] + echarts.number.linearMap(itemLayout[1], [-0.5, 0.5], [-cellHeight / 2 + 20, cellHeight / 2])],
+                        style: api.style({ fill: colors[events[index]] })
+                    };
+                }) || []
+            };
+            group.children.push({
+                type: 'text',
+                style: {
+                    x: cellPoint[0],
+                    y: cellPoint[1] - cellHeight / 2 + 15,
+                    text: echarts.format.formatTime('dd', api.value(0)),
+                    fill: 'blue',
+                    textFont: api.font({ fontSize: 18 })
+                }
+            });
+
+            return group;
+        }
+        var currentMonth = '2018-02'
+        var currentDay = '2018-02-27'
+        var dateList = getVirtulData(2018);
+
+        function initcalander(dateList, currentMonth, currentDay) {
+            var calander = echarts.init(document.getElementById("calander"));
+            var heatmapData = [];
+            var lunarData = [];
+            for (var i = 0; i < dateList.length; i++) {
+                heatmapData.push([
+                    dateList[i][0],
+                    Math.random() * 300
+                ]);
+                lunarData.push({
+                    value: [
+                        dateList[i][0],
+                        1,
+                        dateList[i][1],
+                        dateList[i][2]
+                    ],
+                    symbol: 'rect', // 核心1，这边长方形来填充
+                    itemStyle: {
+                        color: '#81D0F1' // 填充色颜色
+                    }
+                });
+            }
+            var option = {
+                visualMap: {
+                    show: false,
+                    min: 0,
+                    max: 300,
+                    calculable: true,
+                    seriesIndex: [2],
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: 0,
+                    inRange: {
+                        color: ['red']
+                    }
+                },
+                calendar: [{
+                    left: 'center',
+                    top: 'middle',
+                    cellSize: ['80', '70'], // 设置日历格的大小，可支持设置不同高宽
+                    yearLabel: { show: false }, // 显示年度
+                    orient: 'vertical', // 
+                    dayLabel: {
+                        firstDay: 1, // 从1号开始
+                        margin: 0, // 星期标签与轴线之间的距离
+                        padding: [15, 22, 15, 22],
+                        backgroundColor: '#FAFAFA', // 可以是直接的颜色值，例如：'#123234', 'red', rgba(0,23,11,0.3)'
+                        color: '#85807C',
+                        nameMap: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'] // cn或者en，也可以是数组
+                    },
+                    monthLabel: {
+                        show: false, // 显示月度
+                        margin: 100 // 月份和y轴的间距
+                    },
+                    range: currentMonth, // 当前日历显示的月份
+                    itemStyle: {
+                        borderColor: '#F0F0F0'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }],
+
+
+                series: [{
+                    type: 'scatter',
+                    coordinateSystem: 'calendar',
+                    symbolSize: function(param, e, m) { // 核心2，把需要高亮的日期，宽度高度设置成和单元格宽度高度一样
+                        console.log(e.value)
+                        if (e.value[0] == currentDay) {
+                            return [80, 70]
+                        } else {
+                            return 1
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            formatter: function(params) {
+                                var d = echarts.number.parseDate(params.value[0]);
+                                return d.getDate() + '\n\n' + params.value[2] + '\n\n';
+                            },
+                            textStyle: {
+                                color: '#000'
+                            }
+                        }
+                    },
+                    data: lunarData
+                }, {
+                    type: 'scatter',
+                    coordinateSystem: 'calendar',
+                    symbolSize: 1,
+                    label: {
+                        normal: {
+                            show: true,
+                            formatter: function(params) {
+                                return '\n\n\n' + (params.value[3] || '');
+                            },
+                            textStyle: {
+                                fontSize: 14,
+                                fontWeight: 600,
+                                color: '#a00'
+                            }
+                        }
+                    },
+                    data: lunarData
+                }, {
+                    type: 'heatmap',
+                    coordinateSystem: 'calendar',
+                    data: heatmapData
+                }]
+            };
+
+            calander.on('click', function(params) {
+                currentDay = params.value[0];
+                calander.setOption(option);
+                // 这边写自己的业务逻辑，例如当天日期的日程安排
+            });
+            calander.setOption(option);
+        }
+        initcalander(dateList, currentMonth, currentDay)
+    </script>
+</body>
+
+</html>

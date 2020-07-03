@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入的css文件  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
+
+    <title></title>
+    <style>
+        #delUser, #dupUser {
+            background: #1caf9a;
+            color: #FFFFFF;
+            border: none;
+            margin-left: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+<table id="mytable"></table>
+
+</body>
+<!-- 引入的js文件 -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
+<script src="../js//bootstrap-table-zh-CN.min.js"></script>
+
+<script>
+
+    $('#mytable').bootstrapTable({
+        uniqueId: "id", //每一行的唯一标识，一般为主键列
+        sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1, //初始化加载第一页，默认第一页
+        pageSize: 10, //每页的记录行数（*）
+        pageList: [5, 10, 20, 30], //分页步进值 //可供选择的每页的行数（*）
+        pagination: true, //是否显示分页（*）
+        columns: [{
+            field: 'id',
+            title: '编号名'
+        }, {
+            field: 'name',
+            title: '姓名'
+        }, {
+            field: 'photo',
+            title: '联系方式'
+        }, {
+            title: '操作',
+            field: 'id',
+            formatter: option
+        }],
+
+        data: [{
+            id: 1,
+            name: '王小婷',
+            photo: '1373717324'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        },{
+            id: 1,
+            name: '王小婷',
+            photo: '1373717324'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        },{
+            id: 1,
+            name: '王小婷',
+            photo: '1373717324'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        },{
+            id: 1,
+            name: '王小婷',
+            photo: '1373717324'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        },{
+            id: 1,
+            name: '王小婷',
+            photo: '1373717324'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        },{
+            id: 1,
+            name: '王小婷',
+            photo: '1373717324'
+        }, {
+            id: 2,
+            name: '安安',
+            photo: '131313'
+        }]
+    })
+
+
+    // 定义删除、更新操作
+    function option(value, row, index) {
+        var htm = '<button id="delUser" userId='
+            + value
+            + ' onclick="delUser(this)">删除</button><button id="dupUser" onclick="updUser('
+            + value + ')">修改</button>'
+        return htm;
+    }
+
+    // 删除用户
+    function delUser(dom) {
+        $(dom).parent().parent().hide();
+        var mymessage = confirm("确认删除嘛？");
+        if (mymessage == true) {
+            $.ajax({
+                url: path + '/user/' + $(dom).attr("userId"),
+                type: 'delete',
+                success: function (data) {
+                    $(dom).parent().parent().hide();
+                },
+                error: function (data) {
+                    alert("服务器繁忙")
+                }
+            });
+        }
+    }
+
+    // 编辑用户
+    function updUser(id) {
+        layer.open({
+            type: 2,
+            title: '编辑用户',
+            area: ['500px', '440px'],
+            fix: false, //
+            content: path + '/user/pageUpd/' + id,
+            end: function () {
+                $("#mytab").bootstrapTable('refresh', {
+                    url: path + "/user/list"
+                });
+            }
+        });
+    }
+</script>
+
+</html>

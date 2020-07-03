@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .triangle {
+        display: inline-block;
+        font-size: 0;
+        overflow: hidden;
+      }
+
+      .triangle:before {
+        content: '';
+        position: relative;
+        display: inline-block;
+        border: 20px solid transparent;
+      }
+
+      .triangle-up {
+        position: relative;
+        top: 2px;
+        border-top-left-radius: 50%;
+        border-top-right-radius: 50%;
+      }
+      .triangle-up:before {
+        bottom: 2px;
+        border-top-width: 0;
+        border-bottom-width: 40px;
+        border-bottom-color: rgb(181, 181, 181);
+      }
+
+      .triangle-right {
+        position: relative;
+        right: 2px;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+      }
+      .triangle-right:before {
+        left: 2px;
+        border-right-width: 0;
+        border-left-width: 40px;
+        border-left-color: rgb(181, 181, 181);
+      }
+
+      .triangle-down {
+        position: relative;
+        bottom: 2px;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+      }
+      .triangle-down:before {
+        top: 2px;
+        border-bottom-width: 0;
+        border-top-width: 40px;
+        border-top-color: rgb(181, 181, 181);
+      }
+
+      .triangle-left {
+        position: relative;
+        left: 2px;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+      }
+      .triangle-left:before {
+        right: 2px;
+        border-left-width: 0;
+        border-right-width: 50px;
+        border-right-color: rgba(181, 181, 181, 1);
+      }
+    </style>
+  </head>
+  <body>
+
+<div>&amp;lt;script&amp;gt;alert('565')&amp;lt;script&amp;gt;</div>
+    <i class="triangle triangle-up"></i>
+    <i class="triangle triangle-right"></i>
+    <i class="triangle triangle-down"></i>
+    <i class="triangle triangle-left"></i>
+  </body>
+</html>

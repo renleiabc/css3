@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="../js/echarts.js"></script>
+    <style>                 
+        .path {
+            width: 30px;
+            height: 30px;
+            display: block;
+        }
+        #main canvas{
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+   
+    <input type="text" value="&lt;script&gt;alert(&quot;add&quot;)&lt;/script&gt;">
+<textarea><script>alert("add")</script></textarea>
+    <svg width="200" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+        <path d="
+        M 100, 100
+        m -75, 0
+        a75,75 0 1,0 150,0
+        a75,75 0 1,0 -150,0" fill="red" stroke="blue" stroke-width="5" />
+
+    </svg>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 800px;height:600px;"></div>
+    <script type="text/javascript">
+   var sss = 'asdasdas"sdsdasd"sadasdasd';
+   console.log(sss.replace (/"/g, '&quot;'))
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var layouts = [
+            [
+                [0, 0.1]
+            ],
+            [
+
+                [-0.25, 0.1],
+                [0.25, 0.1]
+            ],
+            [
+                [-0.25, 0.1],
+                [0, 0.1],
+                [0.25, 0.1]
+            ]
+        ];
+        const getNowFormatDate = (val) => {
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+
+                var currentdate = year + '年' + month + '月' + strDate + '日';
+                let dateVal = {
+                    "year": year,
+                    "month": year + "-" + month,
+                    "day": year + "-" + month + "-" + day,
+                    "current": currentdate
+                }
+                return dateVal[val];
+            }
+        var pathes = [
+            'M 100, 100 m -75, 0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0',
+            'M 100, 100 m -75, 0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0',
+            'M 100, 100 m -75, 0 a75,75 0 1,0 150,0 a75,75 0 1,0 -150,0',
+        ]
+
+        var colors = [
+            "#FCC905", "#FD29E6", "#44D1FF"
+        ];
+
+        function getVirtulData(year) {
+
+            year = year || '2017';
+            var date = +echarts.number.parseDate(year + '-01-01');
+
+            var end = +echarts.number.parseDate((+year + 1) + '-01-01');
+            var dayTime = 3600 * 24 * 1000;
+            var data = [];
+            for (var time = date; time < end; time += dayTime) {
+                var items = [];
+                var eventCount = Math.round(Math.random() * pathes.length);
+                for (var i = 0; i < eventCount; i++) {
+                    items.push(Math.round(Math.random() * (pathes.length - 1)));
+                }
+                let arr = Array.from(new Set(items));
+
+                data.push([echarts.format.formatTime('yyyy-MM-dd', time), arr.join('|')]);
+            }
+
+            return data;
+        }
+
+        function renderItem(params, api) {
+
+            var cellPoint = api.coord(api.value(0));
+            var cellWidth = params.coordSys.cellWidth;
+            var cellHeight = params.coordSys.cellHeight;
+            var value = api.value(1);
+            var events = value && value.split('|');
+            if (isNaN(cellPoint[0]) || isNaN(cellPoint[1])) {
+                return;
+            }
+            var group = {
+                type: 'group',
+                children: echarts.util.map(layouts[events.length - 1], function(itemLayout, index) {
+                    return {
+                        type: 'path',
+                        shape: { pathData: pathes[events[index]], x: 0, y: 0, width: 12, height: 12 },
+                        position: [cellPoint[0] + echarts.number.linearMap(itemLayout[0], [-0.5, 0.5], [-cellWidth / 2, cellWidth / 2]), cellPoint[1] + echarts.number.linearMap(itemLayout[1], [-0.5, 0.5], [-cellHeight / 2 + 20, cellHeight / 2])],
+                        style: api.style({ fill: colors[events[index]] })
+                    };
+                }) || []
+            };
+            group.children.push({
+                type: 'text',
+                style: {
+                    x: cellPoint[0],
+                    y: cellPoint[1] - cellHeight / 2 + 15,
+                    text: echarts.format.formatTime('dd', api.value(0)),
+                    fill: 'blue',
+                    textFont: api.font({ fontSize: 18 })
+                }
+            });
+
+            return group;
+        }
+
+        var currentDay = '2019-02-27';
+        var heatmapData = [];
+        var lunarData = [];
+        var data = getVirtulData(2019);
+        for (var i = 0; i < data.length; i++) {
+            lunarData.push({
+                value: [
+                    data[i][0],
+                    1,
+                    data[i][1],
+                    data[i][2]
+                ],
+                symbol: 'rect', // 核心1，这边长方形来填充
+                itemStyle: {
+                    color: 'red' // 填充色颜色
+                }
+            });
+        }
+        option = {
+            backgroundColor: '#12cf96',
+            calendar: [{
+                left: 'center',
+                top: 'middle',
+                cellSize: [70, 70],
+                yearLabel: { show: true, margin: 60 },
+                orient: 'vertical',
+                dayLabel: {
+                    firstDay: 1, // 从1号开始
+                    margin: 10, // 星期标签与轴线之间的距离
+                    backgroundColor: '#FAFAFA', // 可以是直接的颜色值，例如：'#123234', 'red', rgba(0,23,11,0.3)'
+                    color: '#85807C',
+                    nameMap: ['日', '一', '二', '三', '四', '五', '六']
+                },
+                monthLabel: {
+                    show: true,
+                    nameMap: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                },
+                range: '2019-02',
+                itemStyle: {
+                    borderColor: 'red',
+                }
+            }],
+            series: [{
+                type: 'scatter',
+                coordinateSystem: 'calendar',
+                symbolSize: function(param, e, m) { // 核心2，把需要高亮的日期，宽度高度设置成和单元格宽度高度一样
+                    console.log(e.value)
+                    if (e.value[0] == currentDay) {
+                        return [70, 70]
+                    } else {
+                        return 1
+                    }
+                },
+                label: {
+                    normal: {
+                        show: false,
+
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 600,
+                            color: 'blue',
+                           
+                        }
+                    }
+                },
+                data: lunarData
+            }, {
+                type: 'custom',
+                coordinateSystem: 'calendar',
+                renderItem: renderItem,
+                dimensions: [null, { type: 'ordinal' }],
+                symbolSize: function(param, e, m) { // 核心2，把需要高亮的日期，宽度高度设置成和单元格宽度高度一样
+                    console.log("+++")
+                    if (e.value[0] == currentDay) {
+                        return [80, 70]
+                    } else {
+                        return 1
+                    }
+                },
+               
+                data: getVirtulData(2019)
+            }]
+        };
+        console.log(option);
+        myChart.setOption(option);
+    </script>
+</body>
+
+</html>

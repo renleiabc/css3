@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap-Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.css">
+    <script src="../js/jquery-1.9.1.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/bootstrap-table.js"></script>
+    <script src="../js//bootstrap-table-zh-CN.min.js"></script>
+
+</head>
+<style>
+    #mytab thead {
+        background: #5488c4;
+    }
+
+    .btn {
+        color: #fff;
+    }
+
+    .green {
+        background: lime;
+    }
+
+    .red {
+        background: red;
+    }
+
+    .blue {
+        background: blue;
+    }
+
+    #mytab tr:nth-child(even) {
+        background: #f4f8fb;
+    }
+
+</style>
+</head>
+
+<body>
+<div>
+    <div>
+        <button onclick="fn()">点击</button>
+        <div class="col-*-12">
+
+            <div id="toolbar">
+                <div class="btn btn-primary" data-toggle="modal" data-target="#addModal">添加记录</div>
+            </div>
+
+            <table id="mytab" class="table table-hover"></table>
+
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">添加记录</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" action="javascript:void(0)">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="age" placeholder="请输入年龄">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="addRecord">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  <script src="assets/bootstrap-table.js"></script>
+<script src="assets/bootstrap-table-zh-CN.js"></script> -->
+<script type="text/javascript">
+    function fn() {
+        console.log(this);
+    }
+
+    //根据窗口调整表格高度
+    $(window).resize(function () {
+        $('#mytab').bootstrapTable('resetView', {
+            height: tableHeight()
+        })
+    })
+
+    var $table = $("#mytab");
+    var dataTable = [];
+    $.ajax({
+        url: "../js/data.json",   //请求的url地址
+        dataType: "json",   //返回格式为json
+        async: false,//请求是否异步，默认为异步，这也是ajax重要特性
+        type: "GET",   //请求方式
+        beforeSend: function () {
+            //请求前的处理
+        },
+        success: function (req) {
+            //请求成功时处理
+            // console.log(req);
+            dataTable = req;
+            tableinit(req);
+        },
+        complete: function () {
+            //请求完成的处理
+        },
+        error: function () {
+            //请求出错处理
+        }
+    });
+
+    function tableinit(data) {
+        console.log(data);
+
+        $table.bootstrapTable({
+            // url: "../js/data.json",
+            //dataType: "json",
+            // contentType: "application/x-www-form-urlencoded",
+            // toolbar: '#toolbar', //工具按钮用哪个容器
+            data: data,
+            striped: true, //是否显示行间隔色
+            cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true, //是否显示分页（*）
+            sortable: false, //是否启用排序
+            sortOrder: "desc", //排序方式
+            sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1, //初始化加载第一页，默认第一页
+            pageSize: 10, //每页的记录行数（*）
+            pageList: [5, 10, 20, 30], //分页步进值 //可供选择的每页的行数（*）
+            // search:true, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            // strictSearch: true,
+            oolbarAlign: 'right', //工具栏对齐方式
+            buttonsAlign: 'right', //按钮对齐方式
+            // showColumns: true, //是否显示所有的列
+            // showRefresh: true, //是否显示刷新按钮
+            minimumCountColumns: 2, //最少允许的列数
+            clickToSelect: true, //是否启用点击选中行
+            //height: 500, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "id", //每一行的唯一标识，一般为主键列
+            // showToggle:true, //是否显示详细视图和列表视图的切换按钮
+            // cardView: false, //是否显示详细视图
+            // detailView: false, //是否显示父子表onEditableSave
+            // singleSelect: false,
+            // striped: true, //是否显示行间隔色
+            // cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            // sortable: true, //是否启用排序
+            // pagination: true, //显示分页按钮
+            // sortName:"starttime",
+            // sortOrder:"desc", //默认排序
+            // pageNumber: 1, //初始化加载第一页，默认第一页
+            // pageSize: 10, //默认显示的每页个数
+            // showRefresh: true, //是否显示刷新按钮
+            // showPaginationSwitch: true, //是否显示选择分页数按钮
+            // queryParamsType: '', //默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort // 设置为 '' 在这种情况下传给服务器的参数为：pageSize,pageNumber
+            /*  queryParams: function(params) {
+                 var temp = {
+                     pageSize: params.pageSize, //页面大小
+                     pageNumber: params.pageNumber, //页码
+                     table_data: tempdata,
+
+                 }
+                 return temp;
+             }, */
+            responseHandler: function (res) {
+                //动态渲染表格之前获取有后台传递的数据时,用于获取出除去本身渲染所需的数据的额外参数
+                //详见此函数参数的api
+                return res;
+            },
+            // search: true, //显示搜索框（客户端搜索）
+            //sidePagination: "server", //服务端处理分页
+            // showToggle:true, //是否显示详细视图和列表视图的切换按钮
+            cardView: false, //是否显示详细视图
+            // detailView: false, //是否显示父子表
+            columns: [{
+                title: "全选",
+                field: "select",
+                checkbox: true,
+                width: 20,//宽度
+                align: "center",//水平
+                valign: "middle"//垂直
+            }, {
+                title: '序号',
+                field: 'id',
+                align: 'center',
+                width: 100,
+                valign: 'middle',
+
+            }, {
+                title: '姓名',
+                field: 'name',
+                align: 'center',
+                width: 120,
+                valign: 'middle',
+
+            },
+                {
+                    title: '价格',
+                    field: 'price',
+                    align: 'center',
+                    width: 120,
+                    valign: 'middle',
+
+                },
+                {
+                    field: 'id',
+                    title: '操作',
+                    width: 120,
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: actionFormatter,
+                },
+            ],
+
+            onLoadSuccess: function (data) { //加载成功时执行
+                // console.log(data);
+                //alert("加载数据成功");
+            },
+            onLoadError: function () { //加载失败时执行
+                alert("加载数据失败");
+            },
+            onDblClickRow: function (row, $element) {
+                var id = row.ID;
+                EditViewById(id, 'view');
+            },
+        });
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="fa fa-heart"></i>',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="fa fa-trash"></i>',
+            '</a>'
+        ].join('')
+    }
+    function EditViewById(id) {
+        console.log(id);
+    }
+
+    function DeleteByIds(id) {
+        console.log(id);
+        dataTable.splice(id, 1);
+        var ids = [];//定义一个数组
+        ids.push(id);//将要删除的id存入数组
+        $table.bootstrapTable('remove', {field: 'id', values: ids});//field:根据field的值来判断要删除的行  values：删除行所对应的值
+        console.log($table.bootstrapTable)
+    }
+
+    //操作栏的格式化
+    function actionFormatter(value, row, index) {
+        //console.log(index);
+        var id = value;
+        var result = "";
+        result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'>查看</span></a>";
+        result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'>编辑</a>";
+        result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'>删除</a>";
+        return result;
+    }
+
+
+    $("#addRecord").click(function () {
+        alert("name:" + $("#name").val() + " age:" + $("#age").val());
+    });
+
+    function tableHeight() {
+        return $(window).height() - 50;
+    }
+
+    /**
+     * 列的格式化函数 在数据从服务端返回装载前进行处理
+     * @param  {[type]} value [description]
+     * @param  {[type]} row   [description]
+     * @param  {[type]} index [description]
+     * @return {[type]}       [description]
+     */
+    function infoFormatter(value, row, index) {
+        return "id:" + row.id + " name:" + row.name + " age:" + row.age;
+    }
+</script>
+</body>
+
+</html>

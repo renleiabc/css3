@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='btn'>button</div>
+    <script>
+        var div = document.getElementById('btn')
+        div.onclick = function() {
+            var i = 1
+            setInterval(() => {
+                i++
+                console.log(i)
+            }, 1000)
+        }; {
+            let set = new Set();
+            set.add(1);
+            set.add('1')
+            console.log(set.size)
+        }; {
+            let s = new Set([1, 2, 3, 4, 5, 5555, 5, 5, 5, 5])
+            console.log([...s])
+            console.log(s)
+            console.log(set.has(5))
+        }
+    </script>
+</body>
+
+</html>

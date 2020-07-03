@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.css">
+    <script src="../js/jquery-1.9.1.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/bootstrap-table.js"></script>
+    <script src="../js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../js/bootstrap-table-loacl-all.min.js"></script>
+    <style>
+        #mytab > thead {
+            background: #5488c4;
+        }
+
+        .bootstrap-table .fixed-table-container .table thead {
+            background: #5488c4;
+            color: #fff;
+        }
+
+        .bootstrap-table .fixed-table-pagination > .pagination-detail .page-list .btn-group {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .btn-group-vertical > .btn, .btn-group > .btn {
+            background: #5488c4;
+            color: #fff;
+        }
+
+        .btn-group.open .dropdown-toggle {
+            background: #5488c4;
+            color: #fff;
+        }
+
+        .btn {
+            color: #fff;
+        }
+
+        .green {
+            background: lime;
+        }
+
+        .red {
+            background: red;
+        }
+
+        .blue {
+            background: blue;
+        }
+
+        #mytab tr:nth-child(even) {
+            background: #f4f8fb;
+        }
+
+    </style>
+</head>
+<body>
+<div class="btn btn-primary" data-toggle="modal" data-target="#addModal">添加记录</div>
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加记录</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" action="javascript:void(0)">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="price" placeholder="请输入价格">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="addRecord">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<table id="mytab" class="table table-hover">
+</table>
+
+<script>
+    var $table = $('#mytab');
+    var selections = []
+    var data = [
+        {
+            "id": 0,
+            "name": "Item 0",
+            "price": "$0"
+        },
+        {
+            "id": 1,
+            "name": "Item 1",
+            "price": "$1"
+        },
+        {
+            "id": 2,
+            "name": "Item 2",
+            "price": "$2"
+        },
+        {
+            "id": 3,
+            "name": "Item 3",
+            "price": "$3"
+        },
+        {
+            "id": 4,
+            "name": "Item 4",
+            "price": "$4"
+        },
+        {
+            "id": 5,
+            "name": "Item 5",
+            "price": "$5"
+        },
+        {
+            "id": 6,
+            "name": "Item 6",
+            "price": "$6"
+        },
+        {
+            "id": 7,
+            "name": "Item 7",
+            "price": "$7"
+        },
+        {
+            "id": 8,
+            "name": "Item 8",
+            "price": "$8"
+        },
+        {
+            "id": 9,
+            "name": "Item 9",
+            "price": "$9"
+        },
+        {
+            "id": 10,
+            "name": "Item 10",
+            "price": "$10"
+        },
+        {
+            "id": 11,
+            "name": "Item 11",
+            "price": "$11"
+        },
+        {
+            "id": 12,
+            "name": "Item 12",
+            "price": "$12"
+        },
+        {
+            "id": 13,
+            "name": "Item 13",
+            "price": "$13"
+        },
+        {
+            "id": 14,
+            "name": "Item 14",
+            "price": "$14"
+        },
+        {
+            "id": 15,
+            "name": "Item 15",
+            "price": "$15"
+        },
+        {
+            "id": 16,
+            "name": "Item 16",
+            "price": "$16"
+        },
+        {
+            "id": 17,
+            "name": "Item 17",
+            "price": "$17"
+        },
+        {
+            "id": 18,
+            "name": "Item 18",
+            "price": "$18"
+        },
+        {
+            "id": 19,
+            "name": "Item 19",
+            "price": "$19"
+        },
+        {
+            "id": 20,
+            "name": "Item 20",
+            "price": "$20"
+        }
+    ];
+
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        })
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1
+        })
+        return res
+    }
+
+    function detailFormatter(index, row) {
+        var html = []
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+        })
+        return html.join('')
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="remove" href="javascript:void(0)" title="Remove">删除',
+            '</a>  ',
+            '<a class="updata" href="javascript:void(0)" title="Like">编辑',
+            '</a>  ',
+        ].join('')
+    }
+
+    var mark = false;
+    window.operateEvents = {
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            })
+        },
+        'click .updata': function (e, value, row, index) {
+          console.log("++++");
+            // console.log(row);
+            // $('#addModal').modal('show');
+            // $("#addRecord").on('click', function () {
+            //     var newData = {
+            //         id: '',
+            //         name: '',
+            //         price: ''
+            //     };
+            //     console.log(data.length);
+            //     newData.id = row.id;
+            //     newData.name = $("#name").val();
+            //     newData.price = $("#price").val();
+            //     if (newData.name != "" && newData.price != "") {
+            //         $table.bootstrapTable('updateRow', {
+            //             index: index,
+            //             row: newData
+            //         })
+            //     }
+            //      $('#addModal').modal('hide');
+            // })
+        }
+
+    }
+    // $("#addRecord").on('click', function () {
+    //     var newData = {
+    //         id: '',
+    //         name: '',
+    //         price: ''
+    //     };
+    //     console.log(data.length);
+    //     newData.id = data.length + '';
+    //     newData.name = $("#name").val();
+    //     newData.price = $("#price").val();
+    //     if (newData.name != "" && newData.price != "") {
+    //         // data.unshift(newData);
+    //         $table.bootstrapTable('prepend', newData);
+    //         /* var rows = $table.bootstrapTable('getData');//行的数据
+    //          console.log(JSON.stringify(rows));
+    //          data = rows;*/
+    //         data.push(newData);
+    //         console.log(data.length);
+    //         console.log(JSON.stringify(data));
+    //         $('#addModal').modal('hide');
+    //     }
+
+
+    // })
+    $table.bootstrapTable('destroy').bootstrapTable({
+        height: 550,
+        data: data,
+        striped: true, //是否显示行间隔色
+        cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true, //是否显示分页（*）
+        sidePagination: "client", //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1, //初始化加载第一页，默认第一页
+        pageSize: 10, //每页的记录行数（*）
+        pageList: [5, 10, 20, 30], //分页步进值 //可供选择的每页的行数（*）
+        minimumCountColumns: 1, //最少允许的列数
+        clickToSelect: true, //是否启用点击选中行
+        uniqueId: "id", //每一行的唯一标识，一般为主键列
+        columns:
+            [{
+                title: '序号',
+                align: 'center',
+                valign: 'middle',
+                width: 120,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            }, {
+                field: 'name',
+                title: '名称',
+                width: 120,
+                align: 'center'
+            }, {
+                field: 'price',
+                title: '价格',
+                width: 120,
+                align: 'center',
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                width: 120,
+                events: window.operateEvents,
+                formatter: operateFormatter
+            }
+            ]
+    })
+</script>
+</body>
+</html>
