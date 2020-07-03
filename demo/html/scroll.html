@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>去掉滚动条后的整屏切换（平滑过渡）</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        #box {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background: yellow;
+        }
+
+        #div1 {
+            background: red;
+        }
+
+        #div2 {
+            background: #0f202f;
+        }
+
+        #div3 {
+            background: #FF3399;
+        }
+
+        #div4 {
+            background: #00FFFF;
+        }
+
+        #div5 {
+            background: #CC3366;
+        }
+
+        #div6 {
+            background: #9c978e;
+        }
+
+        #dot {
+            position: fixed;
+            right: 20px;
+            bottom: 50px;
+        }
+
+        #dot li {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            list-style: none;
+            margin-top: 10px;
+            border-radius: 50%;
+            border: 1px solid #000;
+        }
+
+        #dot .active {
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="box">
+        <div id="div1"></div>
+        <div id="div2"></div>
+        <div id="div3"></div>
+        <div id="div4"></div>
+        <div id="div5"></div>
+        <div id="div6"></div>
+        <ul id="dot">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script src="../js/move.js"></script>
+    <script>
+        var oBox = document.getElementById('box');
+        var aDiv = oBox.getElementsByTagName('div');
+        var oDot = document.getElementById('dot');
+        var aLi = oDot.getElementsByTagName('li');
+        var w = document.documentElement.clientWidth; //计算屏幕可视区的宽度
+        var h = document.documentElement.clientHeight; //计算屏幕可视区的高度
+        var k = 0;
+        for (var i = 0; i < aDiv.length; i++) { //让每一屏都与屏幕可视区的宽度和高度一样
+            aDiv[i].style.height = h + 'px';
+            aDiv[i].style.width = w + 'px';
+        }
+        for (var i = 0; i < aLi.length; i++) {
+            aLi[i].index = i;
+            aLi[i].onmouseover = function() { //鼠标移入小圆点上时，到达对应的页面
+                for (var i = 0; i < aLi.length; i++) {
+                    aLi[i].className = '';
+                }
+                this.className = 'active';
+                move(oBox, {
+                    top: -h * this.index
+                });
+                k = this.index;
+            }
+        }
+
+        //鼠标滚动的时候触发的事件
+        window.onmousewheel = function(ev) {
+            var ev = event || ev;
+            var b = true;
+            b = ev.wheelDelta > 0 ? false : true; //向上滚动鼠标返回假，上下滚动鼠标返回真
+
+            if (b) {
+                k++;
+                if (k > aLi.length - 1) {
+                    k = aLi.length - 1;
+                }
+                clear();
+
+            } else {
+                k--;
+                if (k < 0) {
+                    k = 0;
+                }
+                clear();
+            }
+        }
+        document.onkeydown = function(ev) { //通过键盘上的上下键控制页面的滚动
+            var ev = ev || event;
+            if (ev.keyCode == 40) {
+                k++;
+                if (k > aLi.length - 1) {
+                    k = aLi.length - 1;
+                }
+                clear();
+            } else if (ev.keyCode == 38) {
+                k--;
+                if (k < 0) {
+                    k = 0;
+                }
+                clear();
+            }
+
+        }
+
+        function clear() {
+            for (var j = 0; j < aLi.length; j++) {
+                aLi[j].className = '';
+            }
+            aLi[k].className = 'active';
+            move(oBox, {
+                top: -h * k
+            });
+        }
+    </script>
+</body>
+
+</html>

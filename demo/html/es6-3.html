@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var foo = function (a, b, c) {
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    }
+    var arr = [1, 2, 3]
+    //  传统写法
+    foo(arr[0], arr[1], arr[2])
+    // 使用扩展运算符
+    foo(...arr)
+    var arr2 = arr;
+    var arr3 = [...arr];
+    console.log(arr === arr2); // true,说明arr和arr2指向同一个数组
+    console.log(arr === arr3); // false,说明arr3和arr指向不同的数组
+    // 字符串数组转换
+    var str = 'love';
+    var arr5 = [...str];
+    console.log(arr5); // ['l','v','o,','e']
+    // 把一个数组插入另一个数组字面量
+    var arr5 = [7, 8, 9]
+    var arr4 = [...arr, ...arr5]
+    console.log(arr4); // [1,2,3,4,5,6]
+    function f(x) {
+        const arr = [
+            ...(x > 0 ? ['a'] : []),
+            'b',
+        ]
+        return arr;
+    }
+
+    console.log(f(0))
+    console.log(f(1))
+
+    // es5写法
+    function f1(x, y, z) {
+        console.log(x, y, z)
+    }
+
+    var args = [0, 1, 2];
+    f1.apply(null, args)
+
+    // es6
+    function f2(x, y, z) {
+        console.log(x, y, z)
+    }
+
+    f2(...args);
+    var max = Math.max.apply(null, [14, 3, 77])
+    console.log(max)
+
+    var max = Math.max(...[14, 23, 89])
+    console.log(max)
+    var arr1 = [0, 1, 2]
+    var arr2 = [3, 4, 5]
+    Array.prototype.push.apply(arr1, arr2)
+    console.log(arr1)
+    arr1.push(...arr2)
+    console.log(arr1)
+    var arr4 = [2, 3, 4, 5, 6, 7, 8, 9]
+    const [first, second, ...rest] = arr4
+    console.log(first, second, rest)
+</script>
+</body>
+</html>

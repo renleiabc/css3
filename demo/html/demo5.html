@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .scroll {
+            width: 100%;
+            height: 2000px;
+            background: rgba(66, 66, 62, 0.89);
+        }
+
+        .child-one {
+            width: 60%;
+            margin: 4%;
+            height: 500px;
+            background: rgb(0, 68, 255);
+            float: left;
+        }
+
+        .child-two {
+            width: 30%;
+            margin-top: 50%;
+            height: 300px;
+            background: rgba(255, 0, 0, 0.726);
+            position: -webkit-sticky;
+            position: sticky;
+            top: 50px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scroll">
+        <div class="child-one"></div>
+        <div class="child-two"></div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', throttle(() => {
+            const scrollTop = window.scrollY;
+            console.log(scrollTop)
+        }))
+
+        // function throttle(action, wait = 1000) {
+        //     let time = Date.now(); //1970 年 1 月 1日午夜与当前日期和时间之间的毫秒数
+        //     return function() {
+        //         if ((time + wait - Date.now()) < 0) {
+        //             action();
+        //             time = Date.now();
+        //         }
+        //     }
+        // }
+        //节流函数
+        function throttle(action) {
+            let isRunning = false;
+            return function() {
+                if (isRunning) return;
+                isRunning = true;
+                window.requestAnimationFrame(() => {
+                    action();
+                    isRunning = false;
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../css/jquery-ui.min.css" />
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js//jquery-ui.min.js"></script>
+    <title>拖拽</title>
+    <style>
+      #draggable {
+        width: 100px;
+        height: 100px;
+        background: #ccc;
+        cursor: pointer;
+      }
+      .span {
+        color: red;
+      }
+      .box {
+        width: 400px;
+        height: 500px;
+        background: red;
+      }
+      .drop {
+        width: 200px;
+        height: 200px;
+        background: lime;
+      }
+      .contaniner{
+        display: flex;
+        height: 200px;
+        width: 200px;
+        background: #000;
+      }
+      
+      .contaniner div:first-child{
+        background: red;
+         width: 50px;
+         order: 2;
+         flex-grow: auto;
+      }
+      .contaniner div:last-child{
+        background: lime;
+         width: 100px;
+         flex-grow: auto;
+         order: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div id="draggable">请拖拽我！</div>
+      <div class="drop"></div>
+    </div>
+    <div class="contaniner">
+      <div></div>
+      <div></div>
+    </div>
+    <script>
+      $('#draggable').draggable({
+        containment: '.box',
+        start: function(event, ui) {
+          ui.helper.addClass('span')
+          console.log($(this))
+        },
+        drag: function(event, ui) {
+          // ui.draggable.animate({ top: '0px', left: '0px' }, 'slow')
+          //console.log(ui)
+          //ui.helper.addClass('span')
+          // console.log($(this))
+          //console.log($(this).addClasses("backgoround","red"))
+        },
+        stop: function(event, ui) {
+          ui.helper.removeClass('span')
+        }
+      })
+      $('.drop').droppable({
+        drop: function(event, ui) {
+          var text = ui.helper
+          $(this).append(text)
+        }
+      })
+    </script>
+  </body>
+</html>

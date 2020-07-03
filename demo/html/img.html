@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      img {
+        display: inline-block;
+      }
+
+      .goods {
+        width: 50%;
+        text-align: center;
+        margin: 50px auto;
+      }
+
+      .goods img {
+        animation: myfirst 2s infinite;
+      }
+
+      @keyframes myfirst {
+        0% {
+          transform: translate(0px, 0px);
+        }
+
+        50% {
+          transform: translate(0px, -10px);
+        }
+
+        100% {
+          transform: translate(0px, 0px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="goods">
+      <img
+        src="../images/moon.jpg"
+      />
+    </div>
+    <div>
+      &quot;321312&quot;《sdas》&lt;script&gt;alert(&quot;ddd&quot;)&lt;/script&gt;
+    </div>
+    <script>
+      var reg = /^([1-9]\d?|100)$/
+      var a = 31
+      if (!reg.test(a)) {
+        alert('请输入1-100的整数！')
+      }
+      var str = '\'\'213123$%%^%^%()    ""dsdd  444 77'
+      console.log(encodeURIComponent(str))
+    </script>
+  </body>
+</html>

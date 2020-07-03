@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      p{
+         font-size: 14px;
+          color: #333333;
+          line-height: 18px;
+        
+          width: 150px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; 
+          -webkit-box-orient: vertical;
+      }
+    </style>
+</head>
+<body>
+  <p>[有爱][擂鼓][怒火][舔屏][嘻嘻][可怜][害羞][xkl扔糖豆][xkl困][xkl吃西瓜][xkl捏脸]</p>
+<script>
+    var pat = /中国(.*?)大中国/g;
+    var str = '中国111111111111大中国222222222大中国';
+    console.info(str.match(pat)[0])//中国111111111111大中国
+    console.info(str.match(pat)[1])//111111111111
+    console.log(str.match(pat));
+    var exr = /\[(.*?)\]/g;
+    var strWei = '[有爱][擂鼓][怒火][舔屏][嘻嘻][可怜][害羞][xkl扔糖豆][xkl困][xkl吃西瓜][xkl捏脸]' +
+        '[xkl委屈][xkl转圈][xkl达达黑暗][xkl达达喜欢][xkl怒火][xkl亲亲][xkl达达坏笑][xkl哈哈哈]';
+    console.log(strWei.match(exr));
+</script>
+</body>
+</html>

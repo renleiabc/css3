@@ -1,0 +1,40 @@
+<!--
+ * @Author: renlei
+ * @Date: 2020-05-13 11:26:22
+ * @LastEditors: renlei
+ * @LastEditTime: 2020-05-13 16:44:25
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function test() {
+            var aa = 0;
+            var testSet = setInterval(() => {
+                aa++;
+                console.log(123);
+                if (aa < 10) {
+                    clearInterval(testSet);
+                }
+            }, 20);
+            var testSet1 = setInterval(() => {
+                console.log(321);
+            }, 1000);
+            for (var i = 0; i < 10; i++) {
+                console.log('test');
+            }
+        }
+        test();
+    </script>
+</body>
+
+</html>

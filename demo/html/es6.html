@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div>
+
+    </div>
+</div>
+<script>
+    function f() {
+        if (true) {
+            // console.log(a) // a is not defined
+            let a = 1
+        }
+    }
+
+    f()
+
+    function f1() {
+        if (true) {
+            let a = 1
+        }
+        let a
+        a = 0
+        console.log(a)
+    }
+
+    f1()
+
+    function f2() {
+        if (true) {
+            let a = 1
+            console.log(a) // a is not defined
+
+        }
+    }
+
+    f2()
+    {
+        const type = {
+            a: 0
+        }
+        type.a = 1
+        type.b = 2
+        console.log(type)
+    }
+    const type = {
+        age: 23,
+        name: 'renlei'
+    }
+    console.log(type)
+    for (var i = 0; i < 5; i++) {
+        setTimeout(() => {
+            //console.log(i) // 5,5,5,5,5,5
+        }, 1000)
+    }
+    console.log(i) // 5 跳出循环体大声道污染外部函数
+    for (let j = 0; j < 5; j++) {
+        setTimeout(() => {
+            // console.log(j)
+        })
+    }
+    // console.log(j) // j is not defined j 无法污染外部函数
+    var mySymbol = Symbol()
+    console.log(mySymbol)
+
+    console.log(typeof mySymbol)
+    // 没有参数的情况
+    var s1 = Symbol();
+    var s2 = Symbol();
+    console.log(s1 === s2)
+    //有参数的情况
+    var s1 = Symbol('foo');
+    var s2 = Symbol('foo');
+    console.log(s1 === s2)
+    console.log(s1)
+    console.log(s2)
+    var obj = {
+        name: 1,
+        name: 2
+    }
+    console.log(obj)
+    var a = {}
+    Object.defineProperty(a, 'b', {value: 123})
+    console.log(a.b)
+    Object.defineProperty(a, 'c', {
+        value: 123,
+        writable: false,
+        enumerable: false,
+        configurable: false
+    })
+    Object.defineProperty(a, 's', {
+        configurable: true
+    })
+    var o = {};
+    Object.defineProperty(o, 'b', {
+        value: 37,
+        writable: false
+    })
+    console.log(o.b)
+    o.b = 25
+    console.log(o.b)
+   /* var d = {}
+    Object.defineProperty(d, 'a', {
+        value: 23,
+        enumerable: true
+    })
+    console.log(Object.keys(d))*/ // ['a']
+    var d = {}
+    Object.defineProperty(d, 's', {
+        value: 23,
+        enumerable: false
+    })
+    console.log(Object.keys(d)) // []
+    var h = {}
+    Object.defineProperty(h,'b',{
+        set:function (newValue) {
+            console.log('你要赋值给我，我的新值是' + newValue)
+            return newValue
+        },
+        get:function () {
+            console.log("你取我的值")
+            return 2 // 注意这里，我硬编码返回2
+        }
+    })
+    h.b = 1
+    console.log(h)
+</script>
+</body>
+</html>

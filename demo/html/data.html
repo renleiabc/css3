@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script>
+        let data = {};
+        // 如果不是对象就返回；
+        if (!data || typeof data !== 'object') {
+            console.log("++++++++")
+        }
+        var it = makeIterator(['a', 'b']);
+        console.log(it.next())
+        console.log(it.next())
+        console.log(it.next())
+
+        function makeIterator(array) {
+            var nextIndex = 0;
+            return {
+                next: function() {
+                    return nextIndex < array.length ? { value: array[nextIndex++] } : { done: true }
+                }
+            };
+        }
+        var its = itMake();
+        console.log(its.next().value)
+        console.log(its.next().value)
+        console.log(its.next().value)
+        console.log(its.next().value)
+
+        function itMake(params) {
+            var index = 0;
+            return {
+                next: function() {
+                    return { value: index++, done: false }
+                }
+            }
+        }
+        const obj = {
+            [Symbol.iterator]: function() {
+                return {
+                    next: function() {
+                        return {
+                            value: 1,
+                            done: true
+                        }
+                    }
+                }
+            }
+        }
+        let arr = ['a', 'b', 'c'];
+        let iter = arr[Symbol.iterator]();
+        console.log(iter.next());
+        console.log(iter.next());
+        console.log(iter.next());
+        console.log(iter.next());
+
+        class RangeIterator {
+            constructor(start, stop) {
+                this.value = start;
+                this.stop = stop;
+            }
+
+            [Symbol.iterator]() { return this; }
+            next() {
+                var value = this.value;
+                if (value < this.stop) {
+                    this.value++;
+                    return { done: false, value: value };
+                }
+                return { done: true, value: undefined }
+            }
+        }
+
+        function range(start, stop) {
+            return new RangeIterator(start, stop);
+        }
+        for (var value of range(0, 3)) {
+            console.log(value)
+        }
+
+        function Obj(value) {
+            this.value = value;
+            this.next = null;
+        }
+
+        Obj.prototype[Symbol.iterator] = function() {
+            var iterator = { next: next };
+
+            var current = this;
+
+            function next() {
+                if (current) {
+                    var value = current.value;
+                    current = current.next;
+                    return { done: false, value: value };
+                } else {
+                    return { done: true };
+                }
+            }
+            return iterator;
+        }
+        var one = new Obj(1);
+        var two = new Obj(2);
+        var three = new Obj(3);
+        one.next = two;
+        two.next = three;
+        for (var i of one) {
+            console.log(i);
+        }
+        function name(params) {
+            var add = "add";
+            if (flag) {
+                console.log(add);
+            }
+        }
+        
+    </script>
+</body>
+
+</html>

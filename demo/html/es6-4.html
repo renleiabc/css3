@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-4 Set and Map</title>
+</head>
+<body>
+<div>item1</div>
+<div>item2</div>
+<div>item3</div>
+<div>item4</div>
+<div>item5</div>
+<div>item6</div>
+<div>item7</div>
+<div>item8</div>
+<div>item9</div>
+<div>item10</div>
+<div>item11</div>
+<div>item12</div>
+<div>item13</div>
+<div>item14</div>
+<div>item15</div>
+<div>item16</div>
+<div>item17</div>
+<div>item18</div>
+<div>item19</div>
+<div>item20</div>
+<div>item21</div>
+<div>item22</div>
+<div>item23</div>
+<div>item24</div>
+<div>item25</div>
+<div>item26</div>
+<div>item27</div>
+<div>item28</div>
+<div>item29</div>
+<div>item30</div>
+<div>item31</div>
+<div>item32</div>
+<div>item33</div>
+<div>item34</div>
+<div>item35</div>
+<div>item36</div>
+<div>item37</div>
+<div>item38</div>
+<div>item39</div>
+<div>item40</div>
+<div>item41</div>
+<div>item42</div>
+<div>item43</div>
+<div>item44</div>
+<div>item45</div>
+<div>item46</div>
+<div>item47</div>
+<div>item48</div>
+<div>item49</div>
+<div>item50</div>
+<div>item51</div>
+<div>item52</div>
+<div>item53</div>
+<div>item54</div>
+<div>item55</div>
+<div>item56</div>
+<script>
+    const s = new Set();
+    [2,3,4,5,6,5,3,4,44,44,2].forEach(x =>s.add(x));
+    console.log(s)
+    for(let i of s){
+        console.log(i)
+    }
+    // 例子一
+    const set = new Set([1,2,3,4,4])
+    console.log(set.size)
+    var arr = [...set]
+    console.log(arr)
+    // 例子二
+    const  items = new Set([1,2,3,4,5,5,5,5,5,5]);
+    console.log(items.size,items)
+    // 例子三
+    let nodeList = document.querySelectorAll('div');
+    console.log(nodeList)
+    let array = [...nodeList]
+    console.log(array)
+    const setList = new Set(nodeList);
+    console.log(setList.size,setList)
+    let n = new Set();
+    let a = NaN;
+    let b = NaN;
+    n.add(a);
+    n.add(b);
+    console.log([...n])
+    {
+        let set = new Set();
+        set.add({})
+        console.log(set.size,set)
+        set.add({})
+        console.log(set.size,set)
+    }
+
+</script>
+</body>
+</html>

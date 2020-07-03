@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>iterotar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script>
+        console.log(this)
+        var person = {
+            name: 'renlei',
+            age: 22,
+            fn: () => {
+                return this;
+            }
+        }
+
+        function a() {
+            return this;
+        }
+        console.log(a() === undefined)
+        console.log(person.fn())
+        //调用iterator接口的场合
+        // 1.结构赋值
+        let set = new Set().add('a').add('b').add('c');
+        let [x, y] = set;
+        let [first, ...rest] = set;
+        console.log(first);
+        console.log(rest);
+        // 1.扩展运算符
+        var str = 'hello';
+        var arr = [...str]
+        console.log(arr);
+        var arr1 = ['a', 'b'];
+        var newArr = ['a', ...arr1, 'd'];
+        console.log(newArr);
+
+        let generator = function*() {
+            yield 1;
+            yield*[2, 3, 4];
+            yield 5;
+        };
+        var iterator = generator();
+        var a = iterator.next();
+        console.log(a);
+        var a = iterator.next();
+        console.log(a);
+        var a = iterator.next();
+        console.log(a);
+        var a = iterator.next();
+        console.log(a);
+        var a = iterator.next();
+        console.log(a);
+        var a = iterator.next();
+        console.log(a);
+        var arr = ['red', 'green', 'blue'];
+        for (let v of arr) {
+            console.log(v);
+        }
+        var obj = {};
+        obj[Symbol.iterator] = arr[Symbol.iterator].bind(arr);
+        for (let v of obj) {
+            console.log(v);
+        }
+        arr.forEach(function(element, index) {
+            console.log(element);
+            console.log(index);
+        })
+        // for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟for...in循环也不一样
+        var arr = [3, 4, 5];
+        arr.foo = 'hello';
+        for (let i in arr) {
+            console.log(typeof i);
+        }
+        for (let i of arr) {
+            console.log(typeof i);
+        }
+        var engines = new Set(["Gecko", "Thident", "Webkit", "Webkit"]);
+        for (var e of engines) {
+            console.log(e)
+        }
+        var es6 = new Map();
+        es6.set("edition", 6);
+        es6.set("committee", "TC39");
+        es6.set("standard", "ECMA-262");
+        console.log(es6);
+        for (let v of es6) {
+            console.log(v);
+        }
+        for (var [name, value] of es6) {
+            console.log(name + ": " + value);
+        }
+        var map = new Map().set('a', 1).set('b', 2);
+        for (let pair of map) {
+            console.log(pair);
+        }
+        for (let [key, value] of map) {
+            console.log(key + ": " + value);
+        }
+        var arr = ['a', 'b', 'c'];
+        for (let pair of arr.entries()) {
+            console.log(pair)
+        }
+        for (let x of 'a\uD83D\uDC0A') {
+            console.log(x);
+        }
+        // 并不是所有类似数组的对象都具有 Iterator 接口，一个简便的解决方法，就是使用Array.from方法将其转为数组
+        let arrayLike = {
+            length: 2,
+            0: 'a',
+            1: 'b'
+        }
+        var arr = Array.from(arrayLike);
+        console.log(arr);
+        for (let x of arr) {
+            console.log(x);
+        }
+        // 对象
+        //对象是不能用
+        var es6 = {
+            editions: 6,
+            committee: 'TC39',
+            standard: ""
+        }
+        for (var key of Object.keys(es6)) {
+            console.log(key + ': ' + es6[key]);
+        }
+
+        function* entries(obj) {
+            for (let key of Object.keys(obj)) {
+                yield [key, obj[key]];
+            }
+        }
+        for (let [key, value] of entries(es6)) {
+            console.log(key, '->', value);
+        }
+
+        function fibonacci2(n, ac1 = 1, ac2 = 1) {
+            if (n <= 1) { return ac2 };
+            return fibonacci2(n - 1, ac2, ac1 + ac2);
+        }
+        console.log(fibonacci2(60))
+
+        function fibona(n) {
+            if (n == 0) {
+                return 0;
+            } else if (n == 1) {
+                return 1;
+            } else {
+                return fibona(n - 1) + fibona(n - 2);
+            }
+        }
+        console.log(fibona(10)); //55
+        //end是多少数内的斐波那契数列
+        function fibonacci(end) {
+            var num1 = 0,
+                num2 = 1,
+                num3;
+            var arr = [];
+            if (end <= 2) {
+                return [1, 1]
+            } else {
+                for (var i = 2; i <= end; i++) {
+                    num3 = num1 + num2;
+                    num1 = num2;
+                    num2 = num3;
+                    arr.push(num3);
+                }
+                console.log(arr.unshift(1));
+                return arr;
+            }
+        }
+        var fn = fibonacci(100); //[1, 2, 3, 5, 8, 13]
+        console.log(fn)
+        for (var n of fn) {
+            if (n > 1000)
+                break;
+            console.log(n);
+        }
+    </script>
+</body>
+
+</html>

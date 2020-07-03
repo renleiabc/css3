@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      #div{
+        width: 500px;
+        height: 300px;
+        border:1px solid #ccc;
+        overflow-y: auto;
+      }
+      #div img{
+        max-width: 80%;
+        max-height: 80%;
+      }
+    </style>
+</head>
+<body>
+<div contenteditable="true" id="div"></div>
+<script>
+   document.addEventListener('paste',function(e){
+        if ( !(e.clipboardData && e.clipboardData.items) ) {
+            return;
+        }
+        //console.log(e.clipboardData.items)
+        for (var i = 0, len = e.clipboardData.items.length; i < len; i++) {
+            var item = e.clipboardData.items[i];
+            console.log(item)
+            if (item.kind === "file") {
+                var f= item.getAsFile();
+                //console.log(f);
+                var reader=new FileReader()
+                reader.onload=function (e) {
+                    var img=document.createElement('img') //创建img节点
+                    console.log(e.target.result);
+                    img.src=e.target.result //设置img的src属性
+                    document.querySelector("#div").appendChild(img) //将img添加到div中
+                }
+                reader.readAsDataURL(f)
+            }
+        }
+   })
+
+</script>
+</body>
+</html>

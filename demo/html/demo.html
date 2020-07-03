@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    function fn() {
+      console.log(Array.from(arguments));
+
+    }
+    fn(1, 2, 3, 4);
+
+    function fn1(foo, ...rest) {
+      console.log(`foo: ${foo}`);
+      console.log(rest.length === 0);
+      console.log(typeof rest.join(','));
+      console.log("Rest Arguments:" + rest);
+    }
+    fn1(1);
+    let a = 0,
+      c = 9;
+    c = 10;
+    console.log(c);
+
+    function isObject(value) {
+      return Object.prototype.toString.call(value) === '[object Object]'
+    }
+    let value1 = {};
+    let value2 = [];
+    console.log(isObject(value1));
+    console.log(isObject(value2));
+    //foo: 1
+    //Rest Arguments: 2,3,4,5
+    // 去重操作
+    function uniqeByKeys(array, keys) {
+      var arr = []
+      var hash = {}
+      for (var i = 0, j = array.length; i < j; i++) {
+        var k = obj2key(array[i], keys)
+        if (!(k in hash)) {
+          hash[k] = true
+          arr.push(array[i])
+        }
+      }
+      return arr
+    }
+
+    function obj2key(obj, keys) {
+      var n = keys.length
+      var key = []
+      while (n--) {
+        key.push(obj[keys[n]])
+      }
+      return key.join('|')
+    }
+    var arr1 = [{
+      "id": 9,
+      "project_name": "John",
+      "project_status": "已归档",
+      "create_time": "1993-47-16",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.63.5",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 17,
+      "project_name": "Lisa",
+      "project_status": "已归档",
+      "create_time": "2011-02-06",
+      "project_description": "projectproject",
+      "project_file": "192.168.733.085",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 15,
+      "project_name": "Cynthia",
+      "project_status": "已归档",
+      "create_time": "2005-02-07",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.6.74",
+      "project_setting": "2",
+      "file": "2"
+    }, {
+      "id": 12,
+      "project_name": "Jessica",
+      "project_status": "开发中",
+      "create_time": "2015-56-28",
+      "project_description": "projectproject",
+      "project_file": "192.168.27.37",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 10,
+      "project_name": "Karen",
+      "project_status": "已归档",
+      "create_time": "2011-17-28",
+      "project_description": "projectproject",
+      "project_file": "192.168.51.67",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 8,
+      "project_name": "James",
+      "project_status": "开发中",
+      "create_time": "1975-16-04",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.416.13",
+      "project_setting": "2",
+      "file": "2"
+    }, {
+      "id": 14,
+      "project_name": "Daniel",
+      "project_status": "已归档",
+      "create_time": "1987-12-25",
+      "project_description": "project",
+      "project_file": "192.168.731.2",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 12,
+      "project_name": "Betty",
+      "project_status": "已归档",
+      "create_time": "2000-47-09",
+      "project_description": "projectproject",
+      "project_file": "192.168.585.2",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 10,
+      "project_name": "Gary",
+      "project_status": "开发中",
+      "create_time": "1980-20-08",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.26.50",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 6,
+      "project_name": "Timothy",
+      "project_status": "开发中",
+      "create_time": "2013-34-26",
+      "project_description": "project",
+      "project_file": "192.168.13.824",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 7,
+      "project_name": "Carol",
+      "project_status": "开发中",
+      "create_time": "2017-03-25",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.34.4",
+      "project_setting": "2",
+      "file": "1"
+    }, {
+      "id": 20,
+      "project_name": "Cynthia",
+      "project_status": "开发中",
+      "create_time": "1990-14-20",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.47.18",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 14,
+      "project_name": "Maria",
+      "project_status": "开发中",
+      "create_time": "2011-14-14",
+      "project_description": "projectproject",
+      "project_file": "192.168.61.35",
+      "project_setting": "2",
+      "file": "2"
+    }, {
+      "id": 9,
+      "project_name": "John",
+      "project_status": "已归档",
+      "create_time": "1993-47-16",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.63.5",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 17,
+      "project_name": "Lisa",
+      "project_status": "已归档",
+      "create_time": "2011-02-06",
+      "project_description": "projectproject",
+      "project_file": "192.168.733.085",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 15,
+      "project_name": "Cynthia",
+      "project_status": "已归档",
+      "create_time": "2005-02-07",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.6.74",
+      "project_setting": "2",
+      "file": "2"
+    }, {
+      "id": 12,
+      "project_name": "Jessica",
+      "project_status": "开发中",
+      "create_time": "2015-56-28",
+      "project_description": "projectproject",
+      "project_file": "192.168.27.37",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 10,
+      "project_name": "Karen",
+      "project_status": "已归档",
+      "create_time": "2011-17-28",
+      "project_description": "projectproject",
+      "project_file": "192.168.51.67",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 8,
+      "project_name": "James",
+      "project_status": "开发中",
+      "create_time": "1975-16-04",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.416.13",
+      "project_setting": "2",
+      "file": "2"
+    }, {
+      "id": 14,
+      "project_name": "Daniel",
+      "project_status": "已归档",
+      "create_time": "1987-12-25",
+      "project_description": "project",
+      "project_file": "192.168.731.2",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 12,
+      "project_name": "Betty",
+      "project_status": "已归档",
+      "create_time": "2000-47-09",
+      "project_description": "projectproject",
+      "project_file": "192.168.585.2",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 10,
+      "project_name": "Gary",
+      "project_status": "开发中",
+      "create_time": "1980-20-08",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.26.50",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 6,
+      "project_name": "Timothy",
+      "project_status": "开发中",
+      "create_time": "2013-34-26",
+      "project_description": "project",
+      "project_file": "192.168.13.824",
+      "project_setting": "1",
+      "file": "1"
+    }, {
+      "id": 7,
+      "project_name": "Carol",
+      "project_status": "开发中",
+      "create_time": "2017-03-25",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.34.4",
+      "project_setting": "2",
+      "file": "1"
+    }, {
+      "id": 20,
+      "project_name": "Cynthia",
+      "project_status": "开发中",
+      "create_time": "1990-14-20",
+      "project_description": "projectprojectproject",
+      "project_file": "192.168.47.18",
+      "project_setting": "1",
+      "file": "2"
+    }, {
+      "id": 14,
+      "project_name": "Maria",
+      "project_status": "开发中",
+      "create_time": "2011-14-14",
+      "project_description": "projectproject",
+      "project_file": "192.168.61.35",
+      "project_setting": "2",
+      "file": "2"
+    }]
+
+    var r, arr = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
+
+    r = arr.filter(function(element, index, self) {
+      console.log(element);
+      console.log(index);
+      console.log(self);
+      return self.indexOf(element) === index;
+    });
+
+    console.log(r.toString());
+    //去除数组中重复对象
+    var unique = {};
+    arr1.forEach(function(a) {
+      console.log(a);
+      unique[JSON.stringify(a)] = 1
+    });
+    arr1 = Object.keys(unique).map(function(u) {
+      return JSON.parse(u)
+    });
+    console.log(JSON.stringify(Object.keys(unique)));
+    console.log(JSON.stringify(arr1));
+    // 去除数组中重复对象
+    function uniqueObj(arr) {
+      var unique = {}
+      arr.forEach(function(a) {
+        unique[JSON.stringify(a)] = 1
+      })
+      arr = Object.keys(unique).map(function(u) {
+        return JSON.parse(u)
+      })
+      return arr
+    }
+    var array1 = [{
+      "Num": "A "
+    }, {
+      "Num": "B"
+    }];
+    var array2 = [{
+      "Num": "A ",
+      "Name": "t1 "
+    }, {
+      "Num": "B",
+      "Name": "t2"
+    }, {
+      "Num": "C ",
+      "Name": "t3 "
+    }];
+    var result = [];
+    for (var i = 0; i < array2.length; i++) {
+      var obj = array2[i];
+      var num = obj.Num;
+      var isExist = false;
+      for (var j = 0; j < array1.length; j++) {
+        var aj = array1[j];
+        var n = aj.Num;
+        if (n == num) {
+          isExist = true;
+        }
+      }
+      if (!isExist) {
+        result.push(obj);
+      }
+    }
+    console.log(JSON.stringify(result));
+  </script>
+</body>
+
+</html>

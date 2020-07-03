@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        var cb = function(data) {
+            console.log(JSON.stringify(data))
+        }
+        var url = "https://suggest.taobao.com/sug?code=utf-8&q=%E5%8D%AB%E8%A1%A3&callback=cb"
+        var script = document.createElement('script');
+        script.setAttribute('src', url);
+        document.getElementsByTagName('head')[0].appendChild(script);
+        axios.defaults.baseURL = '';
+
+        $.ajax({
+            type: "get",
+            async: false,
+            url: "https://suggest.taobao.com/sug?code=utf-8&q=%E5%8D%AB%E8%A1%A3&callback=cb",
+            dataType: "jsonp",
+            jsonp: "callback", //传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+            jsonpCallback: "flightHandler", //自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
+            success: function(json) {
+console.log(JSON.stringify(json))
+            },
+            error: function() {
+                alert('fail');
+            }
+
+        })
+
+        axios({
+            // `url` 是用于请求的服务器 URL
+            url: '/sug',
+            // `method` 是创建请求时使用的方法
+            method: 'get', // 默认是 get
+            // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL。
+            // 它可以通过设置一个 `baseURL` 便于为 axios 实例的方法传递相对 URL
+            baseURL: 'https://suggest.taobao.com',
+            withCredentials: true,
+            params: {
+                code: 'utf-8',
+                q: '毛衣'
+            },
+            headers: {
+
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Access-Control-Allow-Origin': "file:///F:/demo/html/json.html",
+                "Access-Control-Allow-Headers": "Authorization,Origin, X-Requested-With, Content-Type, Accept",
+                "Access-Control-Allow-Methods": "GET,POST"
+            },
+            transformResponse: [function(data) {
+                // 对 data 进行任意转换处理
+                console.log("++++++++")
+                return data;
+            }],
+        })
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

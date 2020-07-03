@@ -1,0 +1,90 @@
+<!--
+ * @Author: renlei
+ * @Date: 2018-11-12 11:46:33
+ * @LastEditors: renlei
+ * @LastEditTime: 2019-12-09 14:35:44
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .demo {
+        height: 500px;
+        border: 1px solid red;
+        width: 100%;
+      }
+      .addtaskiframe {
+        width: 100%;
+         background: lime;
+        width: 100%;
+        height: 200px;
+      }
+      .addtaskiframe .box {
+        background: lime;
+        width: 100%;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo">
+      <iframe
+        id="addtaskiframe"
+        frameborder="0"
+        style="width:100%;height:330px; padding:0;"
+        src=""
+        ><div class="addtaskiframe"><div class="box">asdasddas</div></div>
+      </iframe>
+    </div>
+    <script>
+      // async function getStockPricName(params) {
+      //   var symbol = await getStockSymbol(name)
+      //   var stockPrice = await getStockPrice(symbol)
+      //   return stockPrice
+      // }
+      // getStockPricName('goong').then(function(result) {
+      //   console.log(result)
+      // })
+      {
+        const a = "aaaa";
+        let b = "bbbb";
+       console.log(a,b);
+      }
+     let f = (a)=>{
+       console.log(this);
+       return a;
+     }
+     console.log(f(2));
+     let obj = {
+       a:1,
+       i:10,
+       b:()=>{
+         console.log(this);
+         return this.a;
+       },
+       c:function(){
+         return this.a;
+       },
+       d:function(){
+         return ()=>{
+           return this.i;
+         }
+       }
+     }
+     console.log(obj.b())
+     console.log(obj.c());
+     console.log(obj.d()());
+     let arr1 = ['a'];
+     let arr2 = ['b','c'];
+     let arr3 = ['d','e'];
+     console.log([...arr1,...arr2,...arr3]);
+     let [a,...rest] = ['a','b','c'];
+     console.log(rest);
+    </script>
+  </body>
+</html>

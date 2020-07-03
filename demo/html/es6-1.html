@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6-1</title>
+</head>
+<body>
+<script>
+    let promise1 = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('success')
+        }, 2000)
+    })
+
+    promise1.then(function (data) {
+        console.log(data)
+        return data
+    }, function (err) {
+        console.log(err) //失败
+    }).then(function (data) {
+        // 上一步的then()方法没有返回值
+        console.log('链式调用：' + data)// 链式调用：undefined
+    }).then(function (data) {
+        // ...
+    })
+    var age = 2
+    var obj = {
+        age :24,
+        name:'renlei',
+        fn:(val) => {
+            console.log(this)
+            console.log(this.age,val)
+        }
+    }
+    console.log(obj.fn("1"))
+    var obj1 = {
+        age :24,
+        name:'renlei',
+        fn:function(val){
+            console.log(this)
+            console.log(this.age,val)
+        }
+    }
+    let f = obj1.fn
+    console.log(f(1))
+    {
+        console.log(this)
+    }
+</script>
+</body>
+</html>

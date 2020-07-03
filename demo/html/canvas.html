@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            outline: none;
+            border: none;
+        }
+
+        #canvas {
+            width: 7rem;
+            margin: .25rem 0 0 1.5rem;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</body>
+
+</html>
+<script type="text/javascript">
+    /**
+     * rem 布局初始化
+     */
+    $('html').css('font-size', $(window).width() / 10);
+    /**
+     * 获取 canvas 画布
+     * 获取 canvas 绘图上下文环境
+     */
+    var canvas = $('#canvas')[0];
+    var cxt = canvas.getContext('2d');
+
+    /**
+     * 径向渐变 RadialGradient( 小圆圆心横坐标, 小圆圆心纵坐标, 小圆半径, 大圆圆心横坐标, 大圆圆心纵坐标, 大圆半径 )
+     */
+    var radial = cxt.createRadialGradient(500, 300, 0, 500, 300, 300); //创建径向渐变
+    radial.addColorStop(0.0, 'yellow');
+    radial.addColorStop(0.5, 'red');
+    radial.addColorStop(1.0, 'blue');
+    cxt.fillStyle = radial;
+    cxt.fillRect(0, 0, 1000, 600);
+</script>

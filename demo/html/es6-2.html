@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="img">
+
+</div>
+<script>
+    function timeout(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, ms, 'done')
+        })
+    }
+
+    timeout(100).then((value) => {
+        console.log(value)
+    })
+    let promise = new Promise(function (resolve, reject) {
+        console.log('Promise');
+        resolve();
+    })
+    promise.then(function () {
+        console.log('resolved')
+    })
+    console.log('hi')
+
+    function loadImageaAaync(url) {
+        return new Promise(function (resolve, reject) {
+            const image = new Image();
+            image.onload = function () {
+                resolve(image)
+            };
+            image.onerror = function () {
+                reject(new Error('Could not load image at ' + url))
+            };
+            image.src = url
+        })
+    }
+
+    loadImageaAaync('http://t2.hddhhn.com/uploads/tu/201610/198/rycq0w4v0dr.jpg').then(res => {
+        console.log(res)
+        let img = document.querySelector('#img')
+        img.appendChild(res)
+    }, err => {
+        console.log(err)
+    })
+</script>
+</body>
+</html>

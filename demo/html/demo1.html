@@ -1,0 +1,113 @@
+<!--
+ * @Author: renlei
+ * @Date: 2018-07-20 16:36:46
+ * @LastEditors: renlei
+ * @LastEditTime: 2020-05-12 16:55:10
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        .demo {
+            width: 0;
+            height: 0;
+            border-top: 30px solid transparent;
+            border-bottom: 30px solid #000;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .animation-box {
+            animation: antRotate 1.2s infinite linear;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #f4f4f4;
+        }
+
+        .animation-child {
+            animation: antSpin 1s infinite linear;
+            border: 1px solid #f4f4f4;
+            background: red;
+            border-right: 5px;
+            height: 10px;
+            width: 5px;
+        }
+
+        @keyframes antSpin {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes antRotate {
+            to {
+                transform: rotate(405);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <span class="ant-spin-dot ant-spin-dot-spin">
+        <i></i><i></i><i></i><i></i>
+    </span>
+    <div class="animation-box">
+        <div class="animation-child"></div>
+    </div>
+    <div class="demo"></div>
+    <div id="app"></div>
+    <input type="text" id="txt">
+    <p id="show"></p>
+    <button id="other">反选</button>
+    <input type="checkbox" id="all">全选
+    <input type="checkbox" class="check">
+    <input type="checkbox" class="check">
+    <input type="checkbox" class="check">
+    <script>
+        var checkbox = document.getElementsByClassName('check')
+        var checkAll = document.getElementById('all')
+        var checkOther = document.getElementById('other')
+        checkAll.onclick = function() {
+            var flag = true
+            for (var i = 0; i < checkbox.length; i++) { if (!checkbox[i].checked) flag = false }
+            if (flag) { for (var i = 0; i < checkbox.length; i++) { checkbox[i].checked = false } } else { for (var i = 0; i < checkbox.length; i++) { checkbox[i].checked = true } }
+        }
+        checkOther.onclick = function() { for (var i = 0; i < checkbox.length; i++) { checkbox[i].checked = !checkbox[i].checked } }
+        var obj = {};
+        Object.defineProperty(obj, 'txt', {
+            get: function() {
+                return obj
+            },
+            set: function(newValue) {
+                document.getElementById('txt').value = newValue;
+                document.getElementById('show').innerHTML = newValue;
+            }
+        })
+        document.addEventListener('keyup', function(e) {
+            obj.txt = e.target.value;
+        })
+
+        function sleep(delay) {
+            var start = (new Date()).getTime();
+            while ((new Date()).getTime() - start < delay) {
+                continue;
+            }
+        }
+
+        function test() {
+            console.log("111");
+            sleep(2000);
+            console.log("222");
+        }
+        test()
+    </script>
+</body>
+
+</html>

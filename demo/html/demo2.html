@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/animate.css">
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .scroll {
+            width: 100%;
+            height: 100%;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;
+            height: 100%;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        .anchors {
+            position: fixed;
+            top: 0;
+            height: 50px;
+            width: 200px;
+            background: blue;
+            color: #fff;
+            text-align: center;
+            left: 50%;
+            margin-left: -100px;
+            line-height: 50px;
+            z-index: 10000;
+        }
+
+        .anchors li {
+            display: inline-block;
+            width: 30%;
+            list-style: none;
+        }
+
+        .anchors li a {
+            color: #fff;
+            display: block;
+        }
+
+        #miao,
+        #wang,
+        #dian {
+            width: 100%;
+            height: 100%;
+        }
+
+        #miao {
+            background: rgb(255, 166, 0);
+        }
+
+        #wang {
+            background: rgb(94, 255, 0);
+        }
+
+        #dian {
+            background: rgb(97, 40, 3);
+        }
+
+        .box {
+            height: 100%;
+        }
+        .dome{
+            width:300px;
+            height: 300px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scroll">
+        <ul class="anchors">
+            <li>
+                <a href="#miao">HTML</a>
+            </li>
+            <li>
+                <a href="#wang">CSS</a>
+            </li>
+            <li>
+                <a href="#dian">JS</a>
+            </li>
+        </ul>
+        <div class="box">
+            <div id="miao" class="animated bounceInUp" draggable="true">
+                <div class="dome" draggable="true" title="asdasdasd">asdasdas</div>
+            </div>
+            <div id="wang" class="animated bounceInUp"></div>
+            <div id="dian" class="animated bounceInUp"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const outer = document.createElement('div');
+        const inner = document.createElement('div');
+        outer.style.overflow = 'scroll';
+        document.body.appendChild(outer);
+        outer.appendChild(inner);
+        const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+        console.log(scrollbarWidth);
+        console.log("++++++")
+        document.body.removeChild(outer);
+    </script>
+</body>
+
+</html>
